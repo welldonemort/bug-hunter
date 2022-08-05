@@ -1,0 +1,97 @@
+/* common styles */
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* styles */
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: #e5e5e5;
+
+  a {
+    margin-left: 20px;
+    transition: all .5s;
+
+    &:hover {
+      opacity: .7;
+    }
+  }
+}
+
+.title {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  padding: 1em;
+  margin-bottom: 2em;
+  background-color: rgb(192, 45, 26);
+  color: #fff;
+}
+
+.login-form,
+.registration-form {
+  width: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+  background: #e5e5e5;
+
+  &--holder {
+    margin-top: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .radio-group {
+      margin-bottom: 20px;
+      
+      button {
+        cursor: pointer;
+
+        &:disabled {
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
+  h1 {
+    margin: 0;
+  }
+
+  input,
+  div {
+    width: 100%;
+  }
+
+  input,
+  button {
+    margin-top: 10px;
+  }
+}
+
+/* warning */
+.d-none {
+  display: none;
+}
