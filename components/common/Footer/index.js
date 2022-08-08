@@ -1,12 +1,13 @@
 import React from "react";
-import Title from '../Title'
 
 const Footer = () => {
-    return (
-        <div>
-            <Title />
-        </div>
-    )
-}
+  return (
+    <div className="footer">
+      <div>BugHunter</div>
+      <div>О нас</div>
+      <div>Контакты</div>
+    </div>
+  );
+};
 
-export default Footer
+export default Footer;

@@ -3,12 +3,16 @@ import "../styles/globals.scss";
 
 // components
 import Header from "../components/common/Header";
+import Footer from "../components/common/Footer";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div>
+    <div className="app">
       <Header />
-      <Component {...pageProps} />
+      <div className="container">
+        <Component {...pageProps} />
+      </div>
+      <Footer />
     </div>
   );
 }
