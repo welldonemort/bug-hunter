@@ -21,6 +21,7 @@ import { ERROR_MESSAGES } from "../../constants/constants";
 const Registration = () => {
   //
   const [isCompany, setIsCompany] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   // form_state
   const name = useInput("", NAME_VALIDATIONS);

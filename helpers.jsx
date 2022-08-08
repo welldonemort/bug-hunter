@@ -30,7 +30,6 @@ export const useValidation = (value, validations) => {
             .match(
               /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             );
-          console.log(valid);
           valid ? setEmailError(false) : setEmailError(true);
           break;
       }
