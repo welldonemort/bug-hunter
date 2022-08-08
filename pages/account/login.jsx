@@ -1,20 +1,19 @@
 import { useInput } from "../../helpers";
-import axios from "axios";
+import { ERROR_MESSAGES } from "../../constants/constants";
 
 // queries
 import Api from "../../helpers/api";
 const api = new Api();
 
-const ERROR_MESSAGES = {
-  is_empty: "Поле не может быть пустым",
-  min_length: "Слишком короткое значение",
-  email: "Некорректный email",
-  max_length: "Слишком длинное значение",
-};
+// validations
+import {
+  EMAIL_VALIDATIONS,
+  PASSWORD_VALIDATIONS,
+} from "../../validations/validations";
 
 const Registration = () => {
-  const email = useInput("", { isEmpty: true, minLength: 3, isEmail: true });
-  const password = useInput("", { isEmpty: true, minLength: 5, maxLength: 8 });
+  const email = useInput("", EMAIL_VALIDATIONS);
+  const password = useInput("", PASSWORD_VALIDATIONS);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -37,12 +36,11 @@ const Registration = () => {
   const getErrorMessage = (namespace) => {
     let error_message = "";
 
-    if (namespace.isDirty) {
-      if (namespace.isEmpty) error_message = ERROR_MESSAGES.is_empty;
-      else if (namespace.minLengthError)
-        error_message = ERROR_MESSAGES.min_length;
-      else if (namespace.emailError) error_message = ERROR_MESSAGES.email;
-      else if (namespace.maxLength) error_message = ERROR_MESSAGES.max_length;
+    if (namespace?.isDirty) {
+      for (const rule in namespace) {
+        error_message = namespace[rule] === true ? ERROR_MESSAGES[rule] : "";
+        if (error_message) break;
+      }
 
       return <div style={{ color: "red" }}>{error_message}</div>;
     }

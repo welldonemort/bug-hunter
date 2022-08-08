@@ -7,18 +7,29 @@ import { useInput } from "../../helpers";
 import Api from "../../helpers/api";
 const api = new Api();
 
+// constants
+import {
+  BIN_VALIDATIONS,
+  COMPANY_NAME_VALIDATIONS,
+  EMAIL_VALIDATIONS,
+  NAME_VALIDATIONS,
+  PASSWORD_VALIDATIONS,
+  SURNAME_VALIDATIONS,
+} from "../../validations/validations";
+import { ERROR_MESSAGES } from "../../constants/constants";
+
 const Registration = () => {
   //
   const [isCompany, setIsCompany] = useState(false);
 
   // form_state
-  const name = useInput("", { isEmpty: true });
-  const surname = useInput("", { isEmpty: true });
-  const email = useInput("", { isEmpty: true, minLength: 3, isEmail: true });
-  const password = useInput("", { isEmpty: true, minLength: 5, maxLength: 8 });
+  const name = useInput("", NAME_VALIDATIONS);
+  const surname = useInput("", SURNAME_VALIDATIONS);
+  const email = useInput("", EMAIL_VALIDATIONS);
+  const password = useInput("", PASSWORD_VALIDATIONS);
   //
-  const bin = useInput("", { isEmpty: true });
-  const companyName = useInput("", { isEmpty: true });
+  const bin = useInput("", BIN_VALIDATIONS);
+  const companyName = useInput("", COMPANY_NAME_VALIDATIONS);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -45,6 +56,19 @@ const Registration = () => {
 
   const toggleForm = () => setIsCompany(!isCompany);
 
+  const getErrorMessage = (namespace) => {
+    let error_message = "";
+
+    if (namespace?.isDirty) {
+      for (const rule in namespace) {
+        error_message = namespace[rule] === true ? ERROR_MESSAGES[rule] : "";
+        if (error_message) break;
+      }
+
+      return <div style={{ color: "red" }}>{error_message}</div>;
+    }
+  };
+
   return (
     <div className="registration-form--holder">
       <div className="radio-group">
@@ -58,30 +82,28 @@ const Registration = () => {
 
       <form className="registration-form" onSubmit={handleSubmit}>
         <h1>Регистрация</h1>
+
+        {getErrorMessage(name)}
         <input
           onChange={(e) => name.onChange(e)}
+          onBlur={(e) => name.onBlur(e)}
           value={name.value}
           name="name"
           type="text"
           placeholder="Введите имя..."
         />
+
+        {getErrorMessage(surname)}
         <input
           onChange={(e) => surname.onChange(e)}
+          onBlur={(e) => surname.onBlur(e)}
           value={surname.value}
           name="surname"
           type="text"
           placeholder="Введите фамилию..."
         />
 
-        {email.isDirty && email.isEmpty && (
-          <div style={{ color: "red" }}>Поле не может быть пустым</div>
-        )}
-        {email.isDirty && email.minLengthError && (
-          <div style={{ color: "red" }}>Слишком короткая почта</div>
-        )}
-        {email.isDirty && email.emailError && (
-          <div style={{ color: "red" }}>Некорректный email</div>
-        )}
+        {getErrorMessage(email)}
         <input
           onChange={(e) => email.onChange(e)}
           onBlur={(e) => email.onBlur(e)}
@@ -91,15 +113,7 @@ const Registration = () => {
           placeholder="Введите email..."
         />
 
-        {password.isDirty && password.isEmpty && (
-          <div style={{ color: "red" }}>Поле не может быть пустым</div>
-        )}
-        {password.isDirty && password.minLengthError && (
-          <div style={{ color: "red" }}>Слишком короткий пароль</div>
-        )}
-        {password.isDirty && password.maxLengthError && (
-          <div style={{ color: "red" }}>Слишком длинный пароль</div>
-        )}
+        {getErrorMessage(password)}
         <input
           onChange={(e) => password.onChange(e)}
           onBlur={(e) => password.onBlur(e)}
@@ -110,15 +124,20 @@ const Registration = () => {
         />
 
         <div className={isCompany ? "" : "d-none"}>
+          {getErrorMessage(bin)}
           <input
             onChange={(e) => bin.onChange(e)}
+            onBlur={(e) => bin.onBlur(e)}
             value={bin.value}
             name="bin"
             type="text"
             placeholder="Введите БИН..."
           />
+
+          {getErrorMessage(companyName)}
           <input
             onChange={(e) => companyName.onChange(e)}
+            onBlur={(e) => companyName.onBlur(e)}
             value={companyName.value}
             name="companyName"
             type="text"
