@@ -1,5 +1,9 @@
 import { useState } from "react";
 
+// toasts
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // hooks
 import { useInput } from "../../helpers";
 
@@ -16,9 +20,12 @@ import {
   PASSWORD_VALIDATIONS,
   SURNAME_VALIDATIONS,
 } from "../../validations/validations";
-import { ERROR_MESSAGES } from "../../constants/constants";
+import { ERROR_MESSAGES, TOAST_TYPES } from "../../constants/constants";
 
 const Registration = () => {
+  // toasts
+  const notify = (message, options) => toast(message, options);
+
   //
   const [isCompany, setIsCompany] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -48,10 +55,15 @@ const Registration = () => {
     api
       .registerUser(data)
       .then((resp) => {
-        console.log(resp, resp.data);
+        notify(
+          resp.data.success
+            ? "Вы успешно зарегистрированы!"
+            : resp.data.message,
+          resp.data.success ? TOAST_TYPES.success : TOAST_TYPES.info
+        );
       })
       .catch((error) => {
-        console.log(error);
+        notify(error.response.data.message, TOAST_TYPES.error);
       });
   };
 

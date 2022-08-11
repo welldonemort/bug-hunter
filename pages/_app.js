@@ -5,9 +5,13 @@ import "../styles/globals.scss";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 
-function MyApp({ Component, pageProps }) {
+// toasts
+import { ToastContainer } from "react-toastify";
+
+function App({ Component, pageProps }) {
   return (
     <div className="app">
+      <ToastContainer />
       <Header />
       <div className="container">
         <Component {...pageProps} />
@@ -17,4 +21,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default App;

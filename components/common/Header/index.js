@@ -2,12 +2,20 @@ import React from "react";
 import Link from "next/link";
 import cookie from "js-cookie";
 
+import { useState, useEffect } from "react";
+
 const Header = () => {
+  const [session, setSession] = useState();
+
+  useEffect(() => {
+    setSession(cookie.get("token"));
+  }, []);
+
   return (
     <div className="header">
       <div>BugHunter</div>
 
-      {cookie.get("token") ? (
+      {session ? (
         <div>
           <Link href="/account/cabinet">Личный кабинет</Link>
         </div>

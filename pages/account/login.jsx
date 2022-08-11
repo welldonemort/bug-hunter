@@ -1,5 +1,9 @@
 import { useInput } from "../../helpers";
-import { ERROR_MESSAGES } from "../../constants/constants";
+import { ERROR_MESSAGES, TOAST_TYPES } from "../../constants/constants";
+
+// toasts
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // queries
 import Api from "../../helpers/api";
@@ -10,14 +14,17 @@ import {
   EMAIL_VALIDATIONS,
   PASSWORD_VALIDATIONS,
 } from "../../validations/validations";
+import cookie from "js-cookie";
 
 const Registration = () => {
+  // toasts
+  const notify = (message, options) => toast(message, options);
+
   const email = useInput("", EMAIL_VALIDATIONS);
   const password = useInput("", PASSWORD_VALIDATIONS);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const data = {
       email: email.value,
       password: password.value,
@@ -26,10 +33,20 @@ const Registration = () => {
     api
       .loginUser(data)
       .then((resp) => {
-        console.log(resp, resp.data);
+        notify(
+          resp.data.success
+            ? "Вы успешно авторизировались!"
+            : resp.data.message,
+          resp.data.success ? TOAST_TYPES.success : TOAST_TYPES.info
+        );
+
+        if (resp.data.success) {
+          cookie.set("token", resp.data.data[0].token);
+          console.log(cookie.get("token"));
+        }
       })
       .catch((error) => {
-        console.log(error);
+        notify(error.response.data.message, TOAST_TYPES.error);
       });
   };
 

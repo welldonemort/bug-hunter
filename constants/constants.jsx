@@ -4,3 +4,9 @@ export const ERROR_MESSAGES = {
   emailError: "Некорректный email",
   maxLength: "Слишком длинное значение",
 };
+
+export const TOAST_TYPES = {
+  success: { type: "success" },
+  info: { type: "info" },
+  error: { type: "error" },
+};
