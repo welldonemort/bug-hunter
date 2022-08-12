@@ -23,6 +23,14 @@ a {
 
   .container {
     min-height: calc(100vh - 40px * 2);
+
+    &--holder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   }
 }
 
@@ -36,9 +44,14 @@ a {
   padding: 10px 20px;
   background: #e5e5e5;
 
-  a {
+  a, button {
+    font-size: 16px;
     margin-left: 20px;
     transition: all .5s;
+    border: none;
+    background: none;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 
     &:hover {
       opacity: .7;
@@ -102,6 +115,25 @@ a {
   input,
   button {
     margin-top: 10px;
+  }
+}
+
+/* ЛК */
+.cabinet {
+  /* ЛК КОМПАНИЯ */
+  .company {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    a {
+      margin-top: 20px;
+      transition: all .5s;
+
+      &:hover {
+        color: coral;
+      }
+    }
   }
 }
 

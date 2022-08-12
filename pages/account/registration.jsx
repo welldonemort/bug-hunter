@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 // toasts
 import { ToastContainer, toast } from "react-toastify";
@@ -23,8 +24,9 @@ import {
 import { ERROR_MESSAGES, TOAST_TYPES } from "../../constants/constants";
 
 const Registration = () => {
-  // toasts
+  // toasts, router
   const notify = (message, options) => toast(message, options);
+  const router = useRouter();
 
   //
   const [isCompany, setIsCompany] = useState(false);
@@ -61,6 +63,8 @@ const Registration = () => {
             : resp.data.message,
           resp.data.success ? TOAST_TYPES.success : TOAST_TYPES.info
         );
+
+        router.push("/account/login");
       })
       .catch((error) => {
         notify(error.response.data.message, TOAST_TYPES.error);

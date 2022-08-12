@@ -13,6 +13,7 @@ const api = new Api();
 // validations
 import {
   EMAIL_VALIDATIONS,
+  EMPTY_VALIDATIONS,
   PASSWORD_VALIDATIONS,
 } from "../../validations/validations";
 
@@ -24,28 +25,28 @@ const Registration = () => {
   const notify = (message, options) => toast(message, options);
   const router = useRouter();
 
-  const email = useInput("", EMAIL_VALIDATIONS);
-  const password = useInput("", PASSWORD_VALIDATIONS);
+  const title = useInput("", EMPTY_VALIDATIONS);
+  const description = useInput("", EMPTY_VALIDATIONS);
+  const restrictions = useInput("", EMPTY_VALIDATIONS);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = {
-      email: email.value,
-      password: password.value,
+      title: title.value,
+      description: description.value,
+      restrictions: restrictions.value,
+      token: cookie.get("token"),
     };
 
     api
-      .loginUser(data)
+      .createPost(data)
       .then((resp) => {
         notify(
-          resp.data.success
-            ? "Вы успешно авторизировались!"
-            : resp.data.message,
+          resp.data.success ? "Вы успешно создали заказ!" : resp.data.message,
           resp.data.success ? TOAST_TYPES.success : TOAST_TYPES.info
         );
 
         if (resp.data.success) {
-          cookie.set("token", resp.data.data[0].token);
           router.push("/account/cabinet");
         }
       })
@@ -71,34 +72,39 @@ const Registration = () => {
   return (
     <div className="login-form--holder">
       <form className="login-form" onSubmit={handleSubmit}>
-        <h1>Войти</h1>
+        <h1>Создание задачи</h1>
 
-        {getErrorMessage(email)}
+        {getErrorMessage(title)}
         <input
-          onChange={(e) => email.onChange(e)}
-          onBlur={(e) => email.onBlur(e)}
-          value={email.value}
-          name="email"
+          onChange={(e) => title.onChange(e)}
+          onBlur={(e) => title.onBlur(e)}
+          value={title.value}
+          name="title"
           type="text"
-          placeholder="Введите email..."
+          placeholder="Введите заголовок..."
         />
 
-        {getErrorMessage(password)}
+        {getErrorMessage(description)}
         <input
-          onChange={(e) => password.onChange(e)}
-          onBlur={(e) => password.onBlur(e)}
-          value={password.value}
-          name="password"
-          type="password"
-          placeholder="Введите пароль..."
+          onChange={(e) => description.onChange(e)}
+          onBlur={(e) => description.onBlur(e)}
+          value={description.value}
+          name="description"
+          type="text"
+          placeholder="Введите описание..."
         />
 
-        <button
-          disabled={!email.inputValid || !password.inputValid}
-          type="submit"
-        >
-          Войти
-        </button>
+        {getErrorMessage(restrictions)}
+        <input
+          onChange={(e) => restrictions.onChange(e)}
+          onBlur={(e) => restrictions.onBlur(e)}
+          value={restrictions.value}
+          name="restrictions"
+          type="text"
+          placeholder="Введите ограничения..."
+        />
+
+        <button type="submit">Создать задачу</button>
       </form>
     </div>
   );

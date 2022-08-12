@@ -25,3 +25,9 @@ export const BIN_VALIDATIONS = {
 export const COMPANY_NAME_VALIDATIONS = {
   isEmpty: true,
 };
+
+//
+
+export const EMPTY_VALIDATIONS = {
+  isEmpty: true,
+};

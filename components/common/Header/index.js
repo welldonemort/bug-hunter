@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import cookie from "js-cookie";
-
-import { useState, useEffect } from "react";
 
 const Header = () => {
   const [session, setSession] = useState();
 
   useEffect(() => {
     setSession(cookie.get("token"));
-  }, []);
+  }, [cookie.get("token")]);
+
+  const logout = () => {
+    cookie.set("token", "");
+  };
 
   return (
     <div className="header">
@@ -18,6 +20,9 @@ const Header = () => {
       {session ? (
         <div>
           <Link href="/account/cabinet">Личный кабинет</Link>
+          <button onClick={logout}>
+            <Link href="/">Выйти</Link>
+          </button>
         </div>
       ) : (
         <div>

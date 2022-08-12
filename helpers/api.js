@@ -1,4 +1,5 @@
 import axios from "axios";
+import cookie from "js-cookie";
 
 export default class Api {
   constructor() {
@@ -8,7 +9,7 @@ export default class Api {
     // this.api_url = process.env.REACT_APP_API_ENDPOINT;
   }
   init = () => {
-    // this.api_token = getCookie("ACCESS_TOKEN");
+    this.api_token = cookie.get("token");
     let headers = {
       Accept: "application/json",
     };
@@ -25,10 +26,13 @@ export default class Api {
   loginUser = (data) => {
     return this.init().post("/api/login", data);
   };
+  createPost = (data) => {
+    return this.init().post("/api/createPost", data);
+  };
   registerUser = (data) => {
     return this.init().post("/api/register", data);
   };
-  getMainPage = () => {
-    return this.init().get("");
-  };
+  // getMainPage = () => {
+  //   return this.init().get("");
+  // };
 }
