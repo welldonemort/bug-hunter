@@ -18,17 +18,25 @@ import {
 
 // state
 import cookie from "js-cookie";
+import { useState } from "react";
+
+// components
+import { Button } from "../../components/common/Button";
 
 const Registration = () => {
   // toasts, router
   const notify = (message, options) => toast(message, options);
   const router = useRouter();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const email = useInput("", EMAIL_VALIDATIONS);
   const password = useInput("", PASSWORD_VALIDATIONS);
 
   const handleSubmit = (event) => {
+    setIsLoading(true);
     event.preventDefault();
+
     const data = {
       email: email.value,
       password: password.value,
@@ -52,7 +60,8 @@ const Registration = () => {
       .catch((error) => {
         console.log(error);
         notify(error.response.data.message, TOAST_TYPES.error);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const getErrorMessage = (namespace) => {
@@ -93,12 +102,21 @@ const Registration = () => {
           placeholder="Введите пароль..."
         />
 
-        <button
-          disabled={!email.inputValid || !password.inputValid}
+        <Button
           type="submit"
+          disabled={!email.inputValid || !password.inputValid}
+          buttonStyle="btn--primary--solid"
+          buttonSize="btn--large"
         >
           Войти
-        </button>
+        </Button>
+
+        {/*<button*/}
+        {/*  disabled={!email.inputValid || !password.inputValid}*/}
+        {/*  type="submit"*/}
+        {/*>*/}
+        {/*  Войти*/}
+        {/*</button>*/}
       </form>
     </div>
   );
