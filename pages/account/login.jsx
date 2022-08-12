@@ -110,13 +110,6 @@ const Registration = () => {
         >
           Войти
         </Button>
-
-        {/*<button*/}
-        {/*  disabled={!email.inputValid || !password.inputValid}*/}
-        {/*  type="submit"*/}
-        {/*>*/}
-        {/*  Войти*/}
-        {/*</button>*/}
       </form>
     </div>
   );
