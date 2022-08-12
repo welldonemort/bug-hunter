@@ -22,19 +22,17 @@ import { useState } from "react";
 
 // components
 import { Button } from "../../components/common/Button";
+import { Input } from "../../components/common/Input";
 
 const Registration = () => {
   // toasts, router
   const notify = (message, options) => toast(message, options);
   const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const email = useInput("", EMAIL_VALIDATIONS);
   const password = useInput("", PASSWORD_VALIDATIONS);
 
   const handleSubmit = (event) => {
-    setIsLoading(true);
     event.preventDefault();
 
     const data = {
@@ -60,21 +58,7 @@ const Registration = () => {
       .catch((error) => {
         console.log(error);
         notify(error.response.data.message, TOAST_TYPES.error);
-      })
-      .finally(() => setIsLoading(false));
-  };
-
-  const getErrorMessage = (namespace) => {
-    let error_message = "";
-
-    if (namespace?.isDirty) {
-      for (const rule in namespace) {
-        error_message = namespace[rule] === true ? ERROR_MESSAGES[rule] : "";
-        if (error_message) break;
-      }
-
-      return <div style={{ color: "red" }}>{error_message}</div>;
-    }
+      });
   };
 
   return (
@@ -82,21 +66,15 @@ const Registration = () => {
       <form className="login-form" onSubmit={handleSubmit}>
         <h1>Войти</h1>
 
-        {getErrorMessage(email)}
-        <input
-          onChange={(e) => email.onChange(e)}
-          onBlur={(e) => email.onBlur(e)}
-          value={email.value}
+        <Input
+          nameSpace={email}
           name="email"
           type="text"
           placeholder="Введите email..."
         />
 
-        {getErrorMessage(password)}
-        <input
-          onChange={(e) => password.onChange(e)}
-          onBlur={(e) => password.onBlur(e)}
-          value={password.value}
+        <Input
+          nameSpace={password}
           name="password"
           type="password"
           placeholder="Введите пароль..."
